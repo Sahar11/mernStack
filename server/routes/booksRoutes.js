@@ -1,22 +1,10 @@
-import express from "express";
-import cors from "cors";
-import { PORT, mongoDBURL } from "./config.js";
-import mongoose from "mongoose";
-import { Book } from "./models/bookModel.js";
+import express from 'express';
 
-
-const app = express();
-// Middleware for parsing request body
-app.use(express.json());
-app.use(cors());
-
-app.get('/', (request, response) => {
-  return response.status(234).send("Welcome to MERN Stack Tutorial")
-})
+const router = express.Router();
 
 // Route for saving a new book to database base
 
-app.post('/books', async (request, response) => {
+router.post('/books', async (request, response) => {
   try{
    if (
     !request.body.title ||
@@ -42,7 +30,7 @@ app.post('/books', async (request, response) => {
 });
 
 // Route for getting list of books inn the database
-app.get('/books', async (request, response) => {
+router.get('/books', async (request, response) => {
   try{
     const books = await Book.find({});
 
@@ -58,7 +46,7 @@ app.get('/books', async (request, response) => {
 
 // Route for getting specific book from the database by id
 
-app.get('/books/:id', async (request, response) => {
+router.get('/books/:id', async (request, response) => {
   try{
     const { id } = request.params;
     const book = await Book.findById(id);
@@ -72,7 +60,7 @@ app.get('/books/:id', async (request, response) => {
 
 // Route to update a book
 
-app.put('/:id', async (request, response) => {
+router.put('/:id', async (request, response) => {
   try{
       if (
        !request.body.title ||
@@ -100,7 +88,7 @@ app.put('/:id', async (request, response) => {
 //Route for deleting a book
 // Route for getting specific book from the database by id
 
-app.delete('/books/:id', async (request, response) => {
+router.delete('/books/:id', async (request, response) => {
   try{
     const { id } = request.params;
     const result = await Book.findByIdAndDelete(id);
@@ -114,13 +102,4 @@ app.delete('/books/:id', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
-})
-
-mongoose
-.connect(mongoDBURL)
-.then(() => {
-  app.listen(PORT, () => console.log(`Server Started at Port ${PORT}!`)); 
-})
-.catch((error) => {
-console.log(error)
 })
