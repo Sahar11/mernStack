@@ -1,10 +1,11 @@
 import express from 'express';
+import { Book } from "../models/bookModel.js";
 
 const router = express.Router();
 
 // Route for saving a new book to database base
 
-router.post('/books', async (request, response) => {
+router.post('/', async (request, response) => {
   try{
    if (
     !request.body.title ||
@@ -29,8 +30,8 @@ router.post('/books', async (request, response) => {
   }
 });
 
-// Route for getting list of books inn the database
-router.get('/books', async (request, response) => {
+// Route for getting list of books in the database
+router.get('/', async (request, response) => {
   try{
     const books = await Book.find({});
 
@@ -46,7 +47,7 @@ router.get('/books', async (request, response) => {
 
 // Route for getting specific book from the database by id
 
-router.get('/books/:id', async (request, response) => {
+router.get('/:id', async (request, response) => {
   try{
     const { id } = request.params;
     const book = await Book.findById(id);
@@ -86,9 +87,7 @@ router.put('/:id', async (request, response) => {
 });
 
 //Route for deleting a book
-// Route for getting specific book from the database by id
-
-router.delete('/books/:id', async (request, response) => {
+router.delete('/:id', async (request, response) => {
   try{
     const { id } = request.params;
     const result = await Book.findByIdAndDelete(id);
@@ -102,4 +101,6 @@ router.delete('/books/:id', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
-})
+});
+
+export default router;
