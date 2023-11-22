@@ -20,7 +20,7 @@ const EditBook = () => {
         setTitle(response.data.book.title);
         setAuthor(response.data.book.author);
         setPublishYear(response.data.book.publishYear);
-        console.log("Author",response.data.book.author)
+        console.log("Author", response.data.book.author);
         setLoading(false);
       })
       .catch((error) => {
