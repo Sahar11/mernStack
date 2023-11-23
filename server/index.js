@@ -21,7 +21,7 @@ app.use(cors());
 // )
 
 app.get('/', (request, response) => {
-  return response.status(234).send("Welcome to MERN Stack Tutorial")
+  return response.status(234).send("Welcome to MERN Stack")
 });
 
 app.use('/books', booksRoute);
